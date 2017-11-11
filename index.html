@@ -2,10 +2,11 @@
   <head>
     <title>comic</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta name="referrer" content="never">
   </head>
   <body>
-    <h1 id="info"></h1>
+    <h1 id="info" class="title"></h1>
     <div id="comic"></div>
     <script>
       //config
@@ -25,30 +26,30 @@
       var txjson;
 
       //set pics
-      //https://imgsrc.baidu.com/forum/pic/item/83025aafa40f4bfb08905d1d0a4f78f0f7361833.jpg
       function fixPicUrl(u)
       {
-        // return 'https://imgsrc.baidu.com/forum/pic/item/' + u + '.jpg';
-        // return 'http://www.beihaiw.com/pic.php?url=' + ('https://imgsrc.baidu.com/forum/pic/item/' + u + '.jpg');
         return u;
       }
 
-      function ShowPics(value, index, ar) {
-        if(value != ''){
-          console.log(index + ': ' + value);
+      //gen element html
+      function ShowPics(url) {
+        if(url != ''){
           ele += '<div>';
-          ele += '<img src="' + fixPicUrl(value) + '" />';
+          ele += '<img src="' + fixPicUrl(url) + '" width="100%"/>';
           ele += '</div>';
         }
       }
 
       function getpics(e){
-        // console.log(e);
         txjson = e;
-        // ele = '<div>';
-        // e.split('\n').forEach(ShowPics);
-        // ele += '</div>';
-        // $("#comic")[0].innerHTML = ele;
+
+        ele = '<div>';
+        e.picture.forEach(function(v,i){
+          console.log(v.url);
+          ShowPics(v.url);
+        });
+        ele += '</div>';
+        $("#comic")[0].innerHTML = ele;
       }
 
       //main
@@ -59,7 +60,7 @@
         $("#info")[0].innerHTML = 'welcome!';
       }
       else {
-        $("#info")[0].innerHTML = mid + '\t' + cid;
+        $("#info")[0].innerHTML = mid + '-' + cid;
         $.get('databases/' + mid + '/' + cid + '.json',getpics);
       }
 
