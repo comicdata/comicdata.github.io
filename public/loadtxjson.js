@@ -33,7 +33,7 @@ function getpics(e) {
   txjson = e;
 
   ele = '<div>';
-  e.picture.forEach(function(v, i) {
+  JSON.parse(e).picture.forEach(function(v, i) {
     console.log(v.url);
     ShowPics(v.url);
   });
