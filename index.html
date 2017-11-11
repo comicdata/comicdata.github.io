@@ -2,11 +2,15 @@
   <head>
     <title>comic</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <meta name="referrer" content="never">
   </head>
   <body>
     <h1 id="info"></h1>
-    <comic></comic>
+    <div id="comic"></div>
     <script>
+      //config
+      var gitrepo = 'https://raw.githubusercontent.com/ComicDatabase/ComicDatabase/master/';
+
       //get url parma
       (function ($) {
           $.getUrlParam = function (name) {
@@ -16,15 +20,50 @@
           }
       })(jQuery);
 
+      //globle value
+      var ele;
+      var txjson;
+
+      //set pics
+      //https://imgsrc.baidu.com/forum/pic/item/83025aafa40f4bfb08905d1d0a4f78f0f7361833.jpg
+      function fixPicUrl(u)
+      {
+        // return 'https://imgsrc.baidu.com/forum/pic/item/' + u + '.jpg';
+        // return 'http://www.beihaiw.com/pic.php?url=' + ('https://imgsrc.baidu.com/forum/pic/item/' + u + '.jpg');
+        return u;
+      }
+
+      function ShowPics(value, index, ar) {
+        if(value != ''){
+          console.log(index + ': ' + value);
+          ele += '<div>';
+          ele += '<img src="' + fixPicUrl(value) + '" />';
+          ele += '</div>';
+        }
+      }
+
+      function getpics(e){
+        // console.log(e);
+        txjson = e;
+        // ele = '<div>';
+        // e.split('\n').forEach(ShowPics);
+        // ele += '</div>';
+        // $("#comic")[0].innerHTML = ele;
+      }
+
+      //main
       //get info
-      var cid = $.getUrlParam('cid');
       var mid = $.getUrlParam('mid');
+      var cid = $.getUrlParam('cid');
       if(cid == null || mid == null){
         $("#info")[0].innerHTML = 'welcome!';
       }
       else {
-        $("#info")[0].innerHTML = cid + '\t' + mid;
+        $("#info")[0].innerHTML = mid + '\t' + cid;
+        $.get('databases/' + mid + '/' + cid + '.json',getpics);
       }
+
+
     </script>
   </body>
 </html>
