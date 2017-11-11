@@ -1,3 +1,3 @@
 ipfs add -r public | tee ipfs.log
-tail -n ipfs.log | tee ipfs.txt
+tail -n 1 ipfs.log | tee ipfs.txt
 pause
